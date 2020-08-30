@@ -8,7 +8,6 @@ import java.lang.String;
 import java.util.List;
 
 public interface ProductRepository extends PagingAndSortingRepository<Product, Integer> {
-
 	List<Product> findByName(String name);
 
 	List<Product> findByNameAndDesc(String name, String desc);
@@ -22,5 +21,4 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 	List<Product> findByDescLike(String desc);
 
 	List<Product> findByIdIn(List<Integer> ids,Pageable pageable);
-
 }

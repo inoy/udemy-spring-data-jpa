@@ -120,7 +120,7 @@ public class ProductdataApplicationTests {
 	@Test
 	public void testFindByIdsIn() {
 		// Pageable pageable = new PageRequest(0, 2);
-		Pageable pageable = PageRequest.of(0, 2);
+		Pageable pageable = PageRequest.of(1, 2);
 		List<Product> products = repository.findByIdIn(Arrays.asList(1, 2, 3), pageable);
 		products.forEach(p -> System.out.println(p.getName()));
 	}
