@@ -1,40 +1,46 @@
 # udemy-spring-data-jpa
 
-## スキーマ作成
+## @OneToMany
 
-```sql
-CREATE DATABASE IF NOT EXISTS mydb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+OneToMany を設定したフィールに要素を追加する際は、以下のような add メソッドを用意して、子要素(PhoneNumber)に親要素を設定しながら(`p.setCustoemr(this)`)追加すると良い。
+
+```java
+public class Customer {
+  // ...省略
+  public void addPhoneNumber(PhoneNumber p) {
+    if (number != null) {
+      if (numbers == null) {
+        numbers = new HashSet<>();
+      }
+      p.setCustomer(this);
+      numbers.add(p);
+    }
+  }
+}
 ```
 
-## テーブル作成
+Course.117 参照。
+
+## Inheritance - JOINED Stragtegy
+
+ユーザごとの設定情報をもつテーブルに使えるかも？
 
 ```sql
-create table product(
-  id int PRIMARY KEY,
-  name varchar(20),
-  description varchar(100),
-  price decimal(8,3)
+insert into `setting` (`user_id`, `setting_id`, `setting_value`) values
+  (1, 'some_string_type_setting', '1'),
+  (1, 'some_integer_type_setting', 1)
 );
-
-create table employee(
-  id int,
-  name varchar(20)
-)
 ```
 
-## Lombok
+みたいなことがしたいとき、`setting_value`の型に`int`は設定できない。  
+Inheritance で振り分ければ行けそう。
 
-pom.xml
-
-```xml
-<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-<dependency>
-    <groupId>org.projectlombok</groupId>
-    <artifactId>lombok</artifactId>
-    <version>1.18.12</version>
-    <scope>provided</scope>
-</dependency>
+```java
+@Inheritance(strategy = InheritanceType.XXX)
+@DiscriminatorColumn(name="XXX", discriminatorType = DiscriminatorType.XX)
 ```
+
+詳細は Course.95 あたりを参照。
 
 ## 進捗
 
@@ -43,12 +49,7 @@ pom.xml
 | 日  | 目標 | 実績 | 進捗 | 目標比 |
 | --- | ---- | ---- | ---- | ------ |
 | 日  | 65   | 65   | 65   | +0     |
-| 月  | 76   |      |      |        |
-| 火  | 81   |      |      |        |
-| 水  | 98   |      |      |        |
-| 木  | 104  |      |      |        |
-| 金  | 123  |      |      |        |
-| 土  | 139  |      |      |        |
+| 土  | 139  | 123  | 59   | -13    |
 | 日  | 150  |      |      |        |
 
 〜 247
